@@ -1,27 +1,54 @@
+/**
+ * @flow
+ */
 import { Button } from 'native-base';
-import { useState } from 'react';
+import React from 'react';
+import { TouchableOpacity } from 'react-native';
 
 
-function ButtonWrapper({ onPress, onDoublePress, ...remainingProps }) {
-  const [lastClickedAt, setLastClickedAt] = useState(0);
+export interface Props extends TouchableOpacity {
+  onDoublePress: Function;
+  onPress: Function;
+}
 
+class ButtonWrapper extends React.Component<Props> {
+  pressedOnce = false;
 
-  const onPressHandler = (...args) => {
-    if (new Date().getTime() - lastClickedAt < 500) {
-      if (typeof onDoublePress === 'function') {
-        onDoublePress(...args);
+  lastClickedAt = new Date().getTime();
+
+  timeout: any;
+
+  onPressHandler = () => {
+    const { onDoublePress, onPress } = this.props;
+    const supportsDoublePress = typeof onDoublePress === 'function';
+    const supportsSinglePress = typeof onPress === 'function';
+    if (supportsDoublePress) {
+      if (this.pressedOnce) {
+        clearTimeout(this.timeout);
+        this.pressedOnce = false;
+        onDoublePress();
+      } else {
+        this.timeout = setTimeout(() => {
+          this.pressedOnce = false;
+          supportsSinglePress && onPress();
+        }, 100);
+        this.pressedOnce = true;
       }
-      return;
-    }
-
-    setLastClickedAt(new Date().getTime());
-    if (typeof onPress === 'function') {
-      onPress(...args);
+    } else {
+      const newTime = new Date().getTime();
+      if (newTime - this.lastClickedAt > 200) {
+        supportsSinglePress && onPress();
+      }
+      this.lastClickedAt = newTime;
     }
   };
 
-  return new Button({ onPress: onPressHandler, ...remainingProps });
+  render() {
+    const { useNativeBase = false, ...remainingProps } = this.props;
+    if (useNativeBase) {
+      return <Button {...remainingProps} onPress={this.onPressHandler} />;
+    }
+    return <TouchableOpacity {...remainingProps} onPress={this.onPressHandler} />;
+  }
 }
-
-
 export default ButtonWrapper;
