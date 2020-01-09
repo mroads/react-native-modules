@@ -25,7 +25,6 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 import {createViewPortConfig} from 'react-native-responsive-view-port';
 
-console.info('createViewPortConfig',createViewPortConfig(100,100));
 
 const App: () => React$Node = () => {
   return (
