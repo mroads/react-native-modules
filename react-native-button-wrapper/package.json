@@ -1,7 +1,7 @@
 {
   "name": "react-native-button-wrapper",
   "title": "React Native Button Wrapper",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "TODO",
   "main": "index.js",
   "scripts": {
@@ -30,9 +30,9 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^1.7.0",
+    "native-base": "^2.13.8",
     "react": "^16.8.3",
-    "react-native": "^0.59.10",
-    "native-base": "^2.13.8"
+    "react-native": "^0.59.10"
   },
   "dependencies": {},
   "bugs": {
