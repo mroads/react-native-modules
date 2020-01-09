@@ -1,5 +1,14 @@
-import { NativeModules } from 'react-native';
+/* eslint-disable import/prefer-default-export */
 
-const { ResponsiveViewPort } = NativeModules;
+import { Dimensions } from 'react-native';
+import UTIL from 'mroads-js-utils';
 
-export default ResponsiveViewPort;
+const { width, height } = Dimensions.get('screen');
+
+
+export function createViewPortConfig(baseDeviceWidth = 1280, baseDeviceHeight = 800) {
+  return {
+    vw: UTIL.round(width / baseDeviceWidth),
+    vh: UTIL.round(height / baseDeviceHeight),
+  };
+}
