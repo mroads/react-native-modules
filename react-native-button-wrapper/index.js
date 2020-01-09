@@ -7,8 +7,8 @@ import { TouchableOpacity } from 'react-native';
 
 
 export interface Props extends TouchableOpacity {
-  onDoublePress: Function;
-  onPress: Function;
+  onDoublePress?: Function;
+  onPress?: Function;
 }
 
 class ButtonWrapper extends React.Component<Props> {
@@ -30,14 +30,18 @@ class ButtonWrapper extends React.Component<Props> {
       } else {
         this.timeout = setTimeout(() => {
           this.pressedOnce = false;
-          supportsSinglePress && onPress();
+          if (supportsSinglePress) {
+            onPress();
+          }
         }, 100);
         this.pressedOnce = true;
       }
     } else {
       const newTime = new Date().getTime();
       if (newTime - this.lastClickedAt > 200) {
-        supportsSinglePress && onPress();
+        if (supportsSinglePress) {
+          onPress();
+        }
       }
       this.lastClickedAt = newTime;
     }
