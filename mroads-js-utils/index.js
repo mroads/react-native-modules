@@ -42,7 +42,7 @@ class UTIL {
    *
    * @param {string} text
    */
-  static unFormatToPhone(text) { text.replace(/\D/g, '').substring(0, 10); }
+  static unFormatToPhone(text) { return text.replace(/\D/g, '').substring(0, 10); }
 
   /**
    *
